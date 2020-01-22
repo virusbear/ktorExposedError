@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+group 'com.virusbear'
+version '0.0.1'
+
+sourceSets {
+    main.kotlin.srcDirs = main.java.srcDirs = ['src']
+    main.resources.srcDirs = ['resources']
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url 'https://kotlin.bintray.com/ktor' }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "io.ktor:ktor-server-servlet:$ktor_version"
+    compile "ch.qos.logback:logback-classic:$logback_version"
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-locations:$ktor_version"
+    compile "io.ktor:ktor-server-host-common:$ktor_version"
+    compile "io.ktor:ktor-gson:$ktor_version"
+    testCompile "io.ktor:ktor-server-tests:$ktor_version"
+
+    compile 'org.jetbrains.exposed:exposed:0.16.1'
+
+    compile "mysql:mysql-connector-java:5.1.46"
+
+}
+
+task run(type: JavaExec) {
+    main = 'com.virusbear.api.ApplicationKt'
+    classpath = sourceSets.main.runtimeClasspath
+}
